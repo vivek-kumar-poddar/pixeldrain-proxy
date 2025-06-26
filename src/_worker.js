@@ -3,7 +3,7 @@
 const PIXELDRAIN_HOST = 'pixeldrain.com';
 var PASSWORD = ''
 /**
- * 生成输入表单的 HTML 页面
+ * Generate an HTML page for the input form
  */
 function generateInputForm() {
 	return `
@@ -73,8 +73,8 @@ function generateInputForm() {
 				</svg>
 				<h1>Pixeldrain代理</h1>
 			</div>
-			<input type="text" id="link-input" placeholder="输入Pixeldrain链接">
-			<button id="submit-button">提交</button>
+			<input type="text" id="link-input" placeholder="Enter the Pixeldrain link">
+			<button id="submit-button">Go</button>
 		</div>
 		<script>
 			document.getElementById('submit-button').addEventListener('click', () => {
@@ -91,32 +91,32 @@ function generateInputForm() {
 }
 
 /**
- * 解析并代理 Pixeldrain 链接
- * @param {string} url 用户输入的 Pixeldrain URL
+ * Parses and proxies the Pixeldrain link
+ * @param {string} url The Pixeldrain URL entered by the user.
  */
 function parsePixeldrainLink(url) {
 	try {
 		const parsedUrl = new URL(url);
 
-		// 检查域名是否为 pixeldrain.com
+		// Check if the domain name is pixeldrain.com
 		if (parsedUrl.hostname !== PIXELDRAIN_HOST) {
 			return null;
 		}
 
-		// 检查路径格式是否符合预期
+		// Check that the path format is as expected
 		const path = parsedUrl.pathname;
 		const fileIdMatch = path.match(/\/(?:u|api\/file)\/([^?]+)/);
 
 		if (fileIdMatch) {
 			const fileId = fileIdMatch[1];
-			// 生成真实下载链接
+			// Generate real download links
 			return `https://${PIXELDRAIN_HOST}/api/file/${fileId}?download`;
 		}
 	} catch (error) {
 		console.error('Invalid URL:', error);
 	}
 
-	// 返回 null 表示链接无效
+	// Returns null to indicate that the link is invalid
 	return null;
 }
 
